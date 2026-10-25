@@ -2,7 +2,7 @@
 
 **Aya** – Projet de démonstration d'une authentification *stateless* basée sur JSON Web Tokens (JWT) avec Spring Boot 4, Spring Security et JJWT.
 
-> 📌 **Note** : Les images de ce README sont des images fictives de démonstration. Dans le dépôt réel, elles sont remplacées par les captures Postman authentiques dans le dossier `screenshots/`.
+
 
 ---
 
@@ -119,11 +119,6 @@ mvnw.cmd spring-boot:run
 }
 ```
 
-**Résultat attendu** : `200 OK` avec le corps `"Utilisateur cree"`.
-
-![Figure 1 - Aya - Register 200 OK](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+POST+%2Fauth%2Fregister+200+OK)
-
-*Figure 1 : Envoi de la requête d'inscription et confirmation HTTP 200 OK.*
 
 ---
 
@@ -144,13 +139,7 @@ mvnw.cmd spring-boot:run
 }
 ```
 
-**Résultat attendu** : `200 OK` avec un JSON contenant le champ `token`.
 
-![Figure 2 - Aya - Login Token JWT](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+POST+%2Fauth%2Flogin+-+Token+JWT)
-
-*Figure 2 : Authentification réussie et génération du jeton JWT.*
-
----
 
 ### Test 3 : Décodage & analyse cryptographique du token
 
@@ -162,9 +151,7 @@ mvnw.cmd spring-boot:run
 - Payload : `{"sub": "aya@example.com", "iat": ..., "exp": ...}`
 - Durée de validité : 1 heure.
 
-![Figure 3 - Aya - jwt.io HS384](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+jwt.io+-+HS384+Decoded)
 
-*Figure 3 : Décomposition du jeton sur le débogueur jwt.io.*
 
 ---
 
@@ -178,11 +165,6 @@ mvnw.cmd spring-boot:run
 - URL : `http://localhost:8080/api/profile`
 - Authorization : Bearer Token → `{{token}}`
 
-**Résultat attendu** : `200 OK` avec `"Utilisateur connecte : aya@example.com"`.
-
-![Figure 4 - Aya - Profile 200 OK](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+GET+%2Fapi%2Fprofile+200+OK)
-
-*Figure 4 : Accès autorisé à l'endpoint sécurisé `/api/profile`.*
 
 ---
 
@@ -196,11 +178,7 @@ mvnw.cmd spring-boot:run
 - URL : `http://localhost:8080/api/hello`
 - Authorization : Bearer Token → `{{token}}`
 
-**Résultat attendu** : `200 OK` avec `"Bienvenue dans l'API securisee"`.
 
-![Figure 5 - Aya - Hello 200 OK](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+GET+%2Fapi%2Fhello+200+OK)
-
-*Figure 5 : Accès confirmé au service sécurisé `/api/hello`.*
 
 ---
 
@@ -214,11 +192,6 @@ mvnw.cmd spring-boot:run
 - URL : `http://localhost:8080/api/hello`
 - Authorization : Bearer Token non configuré (ou vide).
 
-**Résultat attendu** : `403 Forbidden`.
-
-![Figure 6 - Aya - 403 No Token](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+403+Forbidden+-+No+Token)
-
-*Figure 6 : Rejet catégorique `403 Forbidden` suite à l'absence de token.*
 
 ---
 
@@ -228,11 +201,7 @@ mvnw.cmd spring-boot:run
 
 **Démarche** : prendre un token valide, modifier le dernier caractère de la signature, puis l'envoyer.
 
-**Résultat attendu** : `403 Forbidden` avec un corps JSON d'erreur.
 
-![Figure 7 - Aya - 403 Tampered Token](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+403+Forbidden+-+Tampered+Token)
-
-*Figure 7 : Blocage instantané d'un jeton altéré.*
 
 ---
 
@@ -249,9 +218,7 @@ L'application intègre une base **H2 en mémoire** accessible via une console we
    - **User Name** : `sa`
    - **Password** : *(laisser vide)*
 
-![Figure 8 - Aya - H2 Console](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+H2+Console+-+securitydb)
 
-*Figure 8 : Interface de connexion à la console H2.*
 
 ### Vérification du hachage BCrypt en base
 
@@ -263,9 +230,6 @@ SELECT * FROM USERS;
 
 **Analyse** : la colonne `PASSWORD` doit contenir un hash commençant par `$2a$10$`, ce qui certifie l'utilisation de **BCrypt** avec un facteur de coût de 10. Le mot de passe en clair n'est jamais stocké.
 
-![Figure 9 - Aya - USERS BCrypt](https://placehold.co/1200x600/0f172a/ffffff?text=Aya+-+SELECT+USERS+-+BCrypt+Hash)
-
-*Figure 9 : Persistance de l'utilisateur avec son empreinte BCrypt dans la table `USERS`.*
 
 ---
 
